@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<title>图片串行下载</title>
+</head>
+<body>
+    <input type="button" value="开始" id="ibtn" /><br/>
+    <span id="process"></span>
+    <script type="text/javascript">
+          var imgs=[];
+          var imgUrl="http://img30.360buyimg.com/popWaterMark/jfs/t172/191/1922085191/151868/3d6754e/53bfa861N6694b992.jpg";
+          var start=function(){
+          	  document.getElementById("process").innerHTML+="开始串行请求图片"+"<br/>";
+              var startTime=new Date().valueOf();
+              var getItem=function(i){
+              	 imgs[i]=new Image();
+                 imgs[i].src=imgUrl+"?t="+new Date().valueOf()+i+"1";
+                 imgs[i].onerror=imgs[i].onload  = function() {
+          					document.getElementById("process").innerHTML+=i+"\t\t"+(new Date().valueOf()-startTime)+" ms<br/>";
+          					if(i==5){
+                                 console.log(new Date().valueOf()-startTime,"test");
+          					}else{
+          					   getItem(i+1);
+          				  }
+        				 };
+              }
+              getItem(1);
+          }
+          document.getElementById("ibtn").addEventListener("touchstart", start, false);	
+    </script>
+</body>
+</html>
